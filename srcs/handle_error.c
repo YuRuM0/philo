@@ -1,24 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   handle_error.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yulpark <yulpark@student.codam.nl>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/02 00:05:27 by yulpark           #+#    #+#             */
-/*   Updated: 2025/05/02 00:53:39 by yulpark          ###   ########.fr       */
+/*   Created: 2025/05/02 00:28:22 by yulpark           #+#    #+#             */
+/*   Updated: 2025/05/02 00:47:04 by yulpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	main(int argc, char *argv[])
+void print_error(t_error error_type)
 {
-	if (init_input(argc, argv) != SUCCESS)
-		return (1);
-	else
-	{
-		;
-	}
-	return (0);
+	if (error_type == ERR_INVALID_ARG)
+		printf("Invalid input\n");
 }

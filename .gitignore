@@ -1,0 +1,7 @@
+# ignore diff types of binaries
+*.out
+*.o
+*.a
+.vscode
+philo
+*.txt

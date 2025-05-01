@@ -6,7 +6,7 @@
 #    By: yulpark <yulpark@student.codam.nl>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/01 23:59:08 by yulpark           #+#    #+#              #
-#    Updated: 2025/05/02 00:05:16 by yulpark          ###   ########.fr        #
+#    Updated: 2025/05/02 00:54:24 by yulpark          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,8 @@ HEADER = $(INCLUDE)/philo.h
 
 SRCS_DIR = srcs
 SRCS = $(SRCS)/main.c \
+		$(SRCS)/handle_error.c \
+		$(SRCS)/handle_input.c \
 
 OBJS_DIR = objs
 OBJS = $(patsubst $(SCRS_DIR)/%.c,$(OBJS_DIR)/%.o,$(SRCS))
