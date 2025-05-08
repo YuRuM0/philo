@@ -1,0 +1,41 @@
+Possible solutions:
+1. rep each fork w/ a semaphore
+	then to grab this you can do it by executing a wait() operation on that semaphore
+	then release by executing the signal() operation on the appropriate semaphores
+	so each of these forks will be represented as semaphores (the data type)
+	e.g. semaphore fork[5];
+	and all initialised as 1 -> binary semaphore, meaning that it is free 
+						   0  means that someone is using the fork
+- apply wait to the two forks that the philo will use fork[i] and fork[(i+1)%5]
+- this is incase there are 5 philo
+- after eating use signal() for those two
+
+=> still create a deadlock that all of them grab the left chopstick
+
+2. 
+use asymmetric solution; odd num philo picks up the left first, the even num picks their right first
+https://www.youtube.com/watch?v=FYUi-u7UWgw&t=14s
+
+
+Key concepts
+0. threads
+
+
+1. Data Races (Race Conditions)
+Multiple tasks/threads trying to access the shared resources w/o enough protections
+-> undefined behaviour
+
+When the two deposit functions run at the same time, they both read the balance which is 0, 
+they both deposit the amount inserted and change the balance variable locally, but when they write it to the variable itself, 
+they overwrite each other. thread #1 writes 300 first but thread #2 writes as well and changes the variable to 200. 
+=> solution: mutex
+
+
+2. mutex
+pthread_mutex_init(&mutex, NULL);
+pthread_mutex_lock(&mutex);
+pthread_mutex_unlock(&mutex);
+pthread_mutex_destroy(&mutex);
+we can lock a block of code so that the other thread can only access when unlocked
+You have surely noticed that we initialize and destroy the mutex, and you have to do that 
+every time you want to use a mutex (destroy it after you finished using it) otherwise it won’t work.
