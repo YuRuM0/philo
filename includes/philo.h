@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yulpark <yulpark@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yulpark <yulpark@student.codam.nl>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 23:58:00 by yulpark           #+#    #+#             */
-/*   Updated: 2025/05/09 18:53:11 by yulpark          ###   ########.fr       */
+/*   Updated: 2025/05/10 21:10:50 by yulpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct s_arg
 	int t_sleep;
 	int	t_must_eat;
 	int start_time;
+	int	done;
 	pthread_mutex_t *dead;
 	pthread_mutex_t print;
 	pthread_mutex_t *fork; //array of all possible forks
@@ -50,7 +51,7 @@ typedef struct s_philo
 }	t_philo;
 
 //handle input
-void	init_main(int argc, char *argv[]);
+void	init_arg(int argc, char *argv[]);
 
 //utils
 int		ft_atoi(const char *nptr);

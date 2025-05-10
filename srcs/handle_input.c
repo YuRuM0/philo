@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_input.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yulpark <yulpark@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yulpark <yulpark@student.codam.nl>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 00:25:24 by yulpark           #+#    #+#             */
-/*   Updated: 2025/05/09 19:02:34 by yulpark          ###   ########.fr       */
+/*   Updated: 2025/05/10 21:11:20 by yulpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	input_checker(char **args)
 	return (0);
 }
 
-void	init_main(int argc, char *argv[])
+void	init_arg(int argc, char *argv[])
 {
 	t_arg	*main_data;
 
@@ -52,6 +52,7 @@ void	init_main(int argc, char *argv[])
 		main_data->t_must_eat = -1;
 	main_data->dead = 0;
 	main_data->start_time = ft_gettime();
+	main_data->done = 0;
 }
 
 int	init_phil(t_arg *arg, t_philo *phil, pthread_mutex_t *forks)
