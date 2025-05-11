@@ -6,7 +6,7 @@
 /*   By: yulpark <yulpark@student.codam.nl>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 23:58:00 by yulpark           #+#    #+#             */
-/*   Updated: 2025/05/10 21:10:50 by yulpark          ###   ########.fr       */
+/*   Updated: 2025/05/10 21:30:32 by yulpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,13 @@ typedef struct s_philo
 }	t_philo;
 
 //handle input
-void	init_arg(int argc, char *argv[]);
+int		init_arg(int argc, char *argv[], t_arg *main_data);
+int		init_phil(t_arg *arg, t_philo *phil);
+int		init_mutex(t_arg *arg);
 
 //utils
 int		ft_atoi(const char *nptr);
-void	print_error(t_error error_type);
+int		print_error(t_error error_type);
 int		ft_gettime(void);
 
 //main

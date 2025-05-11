@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yulpark <yulpark@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yulpark <yulpark@student.codam.nl>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 18:01:45 by yulpark           #+#    #+#             */
-/*   Updated: 2025/05/09 19:02:24 by yulpark          ###   ########.fr       */
+/*   Updated: 2025/05/10 21:20:10 by yulpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	print_error(t_error error_type)
+int	print_error(t_error error_type)
 {
 	if (error_type == ERR_INVALID_ARG)
 		printf("Invalid input\n");
@@ -20,6 +20,7 @@ void	print_error(t_error error_type)
 		printf("Malloc fail\n");
 	if (error_type == ERR_TIMEVAL)
 		printf("gettimeofday error\n");
+	return (1);
 }
 
 int	ft_gettime(void)
