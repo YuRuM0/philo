@@ -6,7 +6,7 @@
 /*   By: yulpark <yulpark@student.codam.nl>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 00:05:27 by yulpark           #+#    #+#             */
-/*   Updated: 2025/05/12 17:05:47 by yulpark          ###   ########.fr       */
+/*   Updated: 2025/05/12 17:12:38 by yulpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,61 +16,12 @@
 //create & destroy thread
 //main
 
-/* Modified is_done function for checking death and meal completion */
-void is_done(t_arg *arg, t_philo *phil)
-{
-    int i;
-    int now;
-    int all_ate_enough;
-
-    while (arg->dead == 0 && arg->done == 0)
-    {
-        i = 0;
-        all_ate_enough = 1;
-        
-        while (i < arg->num_philo)
-        {
-            pthread_mutex_lock(&arg->print); // Lock to safely check values
-            now = ft_gettime();
-            
-            // Check if philosopher died (current time - last meal time > time_to_die)
-            if ((now - phil[i].last_eat) > arg->t_die)
-            {
-                arg->dead = 1;
-                printf("%d %d died\n", now - arg->start_time, phil[i].id);
-                pthread_mutex_unlock(&arg->print);
-                return;
-            }
-            
-            // Check if this philosopher hasn't eaten enough yet
-            if (arg->t_must_eat != -1 && phil[i].eaten_meal < arg->t_must_eat)
-                all_ate_enough = 0;
-                
-            pthread_mutex_unlock(&arg->print);
-            i++;
-        }
-        
-        // If all philosophers have eaten enough
-        if (arg->t_must_eat != -1 && all_ate_enough == 1)
-        {
-            pthread_mutex_lock(&arg->print);
-            arg->done = 1;
-            pthread_mutex_unlock(&arg->print);
-            return;
-        }
-        
-        // Sleep a bit to avoid hogging CPU
-        usleep(1000);
-    }
-}
-
 /* Fixed thread_routine function */
 static int thread_routine(t_arg *arg, t_philo *phil)
 {
     int i;
     t_thread_input *inputs;
 
-    // Allocate memory for thread inputs
     inputs = malloc(sizeof(t_thread_input) * arg->num_philo);
     if (!inputs)
         return (print_error(ERR_MALLOC_FAIL), 1);
@@ -88,7 +39,6 @@ static int thread_routine(t_arg *arg, t_philo *phil)
         }
         i++;
     }
-    // Start monitoring
     is_done(arg, phil);
     free(inputs);
     return 0;
