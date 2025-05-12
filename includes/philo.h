@@ -6,7 +6,7 @@
 /*   By: yulpark <yulpark@student.codam.nl>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 23:58:00 by yulpark           #+#    #+#             */
-/*   Updated: 2025/05/10 21:30:32 by yulpark          ###   ########.fr       */
+/*   Updated: 2025/05/12 17:05:37 by yulpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ typedef enum e_error
 	ERR_MALLOC_FAIL,
 	ERR_INVALID_ARG,
 	SUCCESS = 0,
-	ERR_TIMEVAL
+	ERR_TIMEVAL,
+	ERR_THREAD_CREATE
 }	t_error;
 
 typedef struct s_arg
@@ -43,12 +44,19 @@ typedef struct s_philo
 	int eaten_meal;
 	int last_eat;
 	int id;
+	int done;
 	int dead;
 	pthread_t thread;
 	pthread_mutex_t fork_l;
 	pthread_mutex_t fork_r;
 	t_arg	*data;
 }	t_philo;
+
+typedef struct s_thread_input
+{
+    t_arg   *arg;
+    t_philo philo;
+}   t_thread_input;
 
 //handle input
 int		init_arg(int argc, char *argv[], t_arg *main_data);
@@ -59,6 +67,9 @@ int		init_mutex(t_arg *arg);
 int		ft_atoi(const char *nptr);
 int		print_error(t_error error_type);
 int		ft_gettime(void);
+
+//routine
+void	*play_routine(void *thread_input);
 
 //main
 int		main(int argc, char *argv[]);

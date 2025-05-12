@@ -6,7 +6,7 @@
 /*   By: yulpark <yulpark@student.codam.nl>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 00:25:24 by yulpark           #+#    #+#             */
-/*   Updated: 2025/05/10 21:30:17 by yulpark          ###   ########.fr       */
+/*   Updated: 2025/05/11 15:28:51 by yulpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ int	init_phil(t_arg *arg, t_philo *phil)
 		phil[i].fork_l = arg->fork[i];
 		phil[i].fork_r = arg->fork[i % arg->num_philo];
 		phil[i].last_eat = ft_gettime();
+		phil[i].done = 0;
 		i++;
 	}
 	return (0);

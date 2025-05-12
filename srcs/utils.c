@@ -6,7 +6,7 @@
 /*   By: yulpark <yulpark@student.codam.nl>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 18:01:45 by yulpark           #+#    #+#             */
-/*   Updated: 2025/05/10 21:20:10 by yulpark          ###   ########.fr       */
+/*   Updated: 2025/05/12 17:04:47 by yulpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ int	print_error(t_error error_type)
 		printf("Malloc fail\n");
 	if (error_type == ERR_TIMEVAL)
 		printf("gettimeofday error\n");
+	if (error_type == ERR_THREAD_CREATE)
+		printf("Thread error\n");
 	return (1);
 }
 
