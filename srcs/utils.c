@@ -6,7 +6,7 @@
 /*   By: yulpark <yulpark@student.codam.nl>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 18:01:45 by yulpark           #+#    #+#             */
-/*   Updated: 2025/05/12 17:04:47 by yulpark          ###   ########.fr       */
+/*   Updated: 2025/05/13 12:50:17 by yulpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ int	print_error(t_error error_type)
 		printf("Malloc fail\n");
 	if (error_type == ERR_TIMEVAL)
 		printf("gettimeofday error\n");
-	if (error_type == ERR_THREAD_CREATE)
-		printf("Thread error\n");
 	return (1);
 }
 
@@ -58,4 +56,22 @@ int	ft_atoi(const char *nptr)
 		nptr++;
 	}
 	return (sign * result);
+}
+void	loading(int	t)
+{
+	int checkpoint;
+
+	checkpoint = ft_gettime();
+	while ((ft_gettime() - checkpoint) < t)
+		usleep(10);
+}
+
+void	print_statement(t_arg *arg, t_philo phil, char *msg)
+{
+	int time;
+
+	time = ft_gettime();
+	pthread_mutex_lock(&arg->print);
+	printf("%d %d %s\n", time - arg->start_time, phil.id, msg);
+	pthread_mutex_unlock(&arg->print);
 }
