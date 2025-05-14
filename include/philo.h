@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: yulpark <yulpark@student.codam.nl>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/01 23:58:00 by yulpark           #+#    #+#             */
-/*   Updated: 2025/05/13 18:00:05 by yulpark          ###   ########.fr       */
+/*   Created: 2025/05/14 17:45:19 by yulpark           #+#    #+#             */
+/*   Updated: 2025/05/14 18:59:21 by yulpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,50 +22,53 @@ typedef enum e_error
 	ERR_INVALID_ARG,
 	SUCCESS = 0,
 	ERR_TIMEVAL,
-	ERR_THREAD
+	ERR_THREAD,
+	ERR_MUTEX
 }	t_error;
 
 typedef struct s_arg
 {
-	int num_philo;
-	int t_die;
+	int n_philo;
 	int t_eat;
+	int t_die;
 	int t_sleep;
-	int	t_must_eat;
+	int t_must_eat;
 	int start_time;
-	int	done;
-	pthread_mutex_t *dead;
+	int done;
+	int dead;
+	int ready;
+	pthread_mutex_t dead_mutex;
+	pthread_mutex_t done_mutex;
+	pthread_mutex_t *fork;
 	pthread_mutex_t print;
-	pthread_mutex_t *fork; //array of all possible forks
 }	t_arg;
 
 typedef struct s_philo
 {
-	int eaten_meal;
-	int last_eat;
+	int n_eaten;
+	int t_last_eat;
 	int id;
-	t_arg	*arg;
+	t_arg *arg;
 	pthread_t thread;
-	pthread_mutex_t *fork_l;
-	pthread_mutex_t *fork_r;
+	pthread_mutex_t *l_fork;
+	pthread_mutex_t *r_fork;
 }	t_philo;
 
-//handle input
-int		init_arg(int argc, char *argv[], t_arg *main_data);
-int		init_phil(t_arg *arg, t_philo *phil);
-int		init_mutex(t_arg *arg);
-int		init_thread(t_arg *arg, t_philo *phil);
+// input_handle
+int				init_arg(int argc, char *argv[], t_arg *arg);
+int				init_mutex(t_arg *arg);
+int				init_philo(t_arg *arg);
+
+//loop
+void				loop(void *arg);
 
 //utils
-int		ft_atoi(const char *nptr);
-int		print_error(t_error error_type);
-int		ft_gettime(void);
-void	print_statement(t_arg *arg, t_philo phil, char *msg);
-void	loading(int	t);
-
-//routine
-int routine(t_philo *philo);
-int	thread(t_arg *arg);
+int				print_error(t_error error_type);
+long long int	ft_gettime(void);
+int				ft_atoi(const char *nptr);
+void			loading(int	t);
+void			print_statement(t_arg *arg, t_philo phil, char *msg);
 
 //main
-int		main(int argc, char *argv[]);
+int				run_thread(t_arg *arg, t_philo *philo);
+int				main(int argc, char *argv[]);

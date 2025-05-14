@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: yulpark <yulpark@student.codam.nl>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/09 18:01:45 by yulpark           #+#    #+#             */
-/*   Updated: 2025/05/13 12:50:17 by yulpark          ###   ########.fr       */
+/*   Created: 2025/05/14 17:46:11 by yulpark           #+#    #+#             */
+/*   Updated: 2025/05/14 19:03:17 by yulpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,12 @@ int	print_error(t_error error_type)
 		printf("Malloc fail\n");
 	if (error_type == ERR_TIMEVAL)
 		printf("gettimeofday error\n");
+	if (error_type == ERR_MUTEX)
+		printf("Mutex error\n");
 	return (1);
 }
 
-int	ft_gettime(void)
+long long int	ft_gettime(void)
 {
 	struct timeval tv;
 
@@ -61,7 +63,7 @@ void	loading(int	t)
 {
 	int checkpoint;
 
-	checkpoint = ft_gettime();
+	checkpoint = ft_gettime(); 
 	while ((ft_gettime() - checkpoint) < t)
 		usleep(10);
 }

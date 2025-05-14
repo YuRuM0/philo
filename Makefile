@@ -6,7 +6,7 @@
 #    By: yulpark <yulpark@student.codam.nl>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/01 23:59:08 by yulpark           #+#    #+#              #
-#    Updated: 2025/05/02 00:54:24 by yulpark          ###   ########.fr        #
+#    Updated: 2025/05/14 17:55:10 by yulpark          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,16 +19,16 @@ BLUE    = \033[34m
 
 CFLAGS = -Wall -Werror -Wextra -g -pthread
 
-INCLUDE = includes
+INCLUDE = include
 HEADER = $(INCLUDE)/philo.h
 
 SRCS_DIR = srcs
-SRCS = $(SRCS)/main.c \
-		$(SRCS)/handle_error.c \
-		$(SRCS)/handle_input.c \
+SRCS = $(SRCS_DIR)/main.c \
+		$(SRCS_DIR)/utils.c \
+		$(SRCS_DIR)/input_handle.c
 
 OBJS_DIR = objs
-OBJS = $(patsubst $(SCRS_DIR)/%.c,$(OBJS_DIR)/%.o,$(SRCS))
+OBJS = $(patsubst $(SRCS_DIR)/%.c,$(OBJS_DIR)/%.o,$(SRCS))
 
 all: $(NAME)
 
@@ -36,20 +36,18 @@ $(NAME): $(OBJS)
 	@$(CC) $(CFLAGS) $(OBJS) -I$(INCLUDE) -o $(NAME)
 	@echo "\n$(GREEN)philo  ✅$(RESET)\n"
 
-$(OBJS_DIR)/%.o: $(SCRS_DIR)/%.c $(HEADERS)
+$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(HEADER)
 	@mkdir -p $(@D)
 	@$(CC) $(CFLAGS) -I$(INCLUDE) -c $< -o $@
 	@echo "$(GREEN)Compiling: $< into $@$(RESET)"
 
 clean:
-	@$(MAKE) --no-print-directory clean -C 
 	@if [ -d $(OBJS_DIR) ]; then \
 		echo "$(YELLOW)Object files have been removed   ✅$(RESET)"; \
 	fi
 	@rm -rf $(OBJS_DIR)
 
 fclean: clean
-	@$(MAKE) --no-print-directory fclean -C
 	@rm -f $(NAME)
 	@echo "$(YELLOW)Executable file has been removed ✅$(RESET)"
 
