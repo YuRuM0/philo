@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_handle.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yulpark <yulpark@student.codam.nl>         +#+  +:+       +#+        */
+/*   By: yulpark <yulpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 17:45:35 by yulpark           #+#    #+#             */
-/*   Updated: 2025/05/14 18:34:08 by yulpark          ###   ########.fr       */
+/*   Updated: 2025/05/14 19:54:54 by yulpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int init_mutex(t_arg *arg)
 	return (0);
 }
 
-int init_philo(t_arg *arg)
+int init_philo(t_arg *arg, t_philo *philo)
 {
 	int	i;
 	t_philo *philo;
@@ -77,7 +77,6 @@ int init_philo(t_arg *arg)
 	i = 0;
 	if (arg->n_philo > 1)
 	{
-		philo = malloc(sizeof(t_philo) * arg->n_philo);
 		while (i < arg->n_philo)
 		{
 			philo[i].n_eaten = 0;

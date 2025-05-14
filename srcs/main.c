@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yulpark <yulpark@student.codam.nl>         +#+  +:+       +#+        */
+/*   By: yulpark <yulpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 17:53:59 by yulpark           #+#    #+#             */
-/*   Updated: 2025/05/14 18:58:52 by yulpark          ###   ########.fr       */
+/*   Updated: 2025/05/14 19:55:46 by yulpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,25 +29,28 @@ int run_thread(t_arg *arg, t_philo *philo)
 		pthread_join(&philo[i].thread, NULL);
 		i++;
 	}
-	pthread_mutex_destroy(&arg->dead_mutex);
-	pthread_mutex_destroy(&arg->done_mutex);
-	pthread_mutex_destroy(&arg->print);
-	pthread_mutex_destroy(arg->fork);
 	return (0);
 }
 
 int main(int argc, char *argv[])
 {
 	t_arg	*arg;
-	
+	t_philo *philo;
+
 	arg = malloc(sizeof(t_arg));
 	if (!arg)
 		return (print_error(ERR_MALLOC_FAIL), NULL);
 	if (!init_arg(argc, argv, arg))
 		return (1);
+	philo = malloc(sizeof(t_philo) * arg->n_philo);
 	if (!init_philo(arg))
 		return (1);
-	
+	run_thread(arg, philo);
+	//check
+	pthread_mutex_destroy(&arg->dead_mutex);
+	pthread_mutex_destroy(&arg->done_mutex);
+	pthread_mutex_destroy(&arg->print);
+	pthread_mutex_destroy(arg->fork);
 	free(arg);
 	free(arg->fork);
 	return (0);
