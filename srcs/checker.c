@@ -6,7 +6,7 @@
 /*   By: yulpark <yulpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 21:57:38 by yulpark           #+#    #+#             */
-/*   Updated: 2025/05/14 21:57:58 by yulpark          ###   ########.fr       */
+/*   Updated: 2025/05/14 22:23:24 by yulpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,26 @@ static void	is_done(t_arg *arg, t_philo *philo)
 	if (full == arg->n_philo)
 		arg->done = 1;
 	pthread_mutex_unlock(&arg->done_mutex);
+}
+
+void *check_overall(void *arginput)
+{
+	t_arg *arg;
+	t_philo *philo;
+
+	philo = (t_philo *)arginput;
+	arg = philo->arg;
+	while (1)
+	{
+		is_dead(arg, philo);
+		is_done(arg, philo);
+		pthread_mutex_lock(&arg->dead_mutex);
+		pthread_mutex_lock(&arg->done_mutex);
+		if (arg->done == 1 || arg->dead == 1)
+			break;
+		pthread_mutex_unlock(&arg->dead_mutex);
+		pthread_mutex_unlock(&arg->done_mutex);
+		usleep(1000);
+	}
+	return (0);
 }

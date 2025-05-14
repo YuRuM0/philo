@@ -6,7 +6,7 @@
 /*   By: yulpark <yulpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 17:53:59 by yulpark           #+#    #+#             */
-/*   Updated: 2025/05/14 21:31:01 by yulpark          ###   ########.fr       */
+/*   Updated: 2025/05/14 22:22:53 by yulpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static int	run_thread(t_arg *arg, t_philo *philo)
 {
 	int	i;
+	pthread_t checker_thread;
 
 	i  = 0;
 	while (i < arg->n_philo)
@@ -24,12 +25,16 @@ static int	run_thread(t_arg *arg, t_philo *philo)
 		i++;
 	}
 	arg->ready = 1;
+	//
+	if (pthread_create(&checker_thread, NULL, check_overall, philo))
+		return (print_error(ERR_THREAD), 1);
 	i = 0;
 	while (i < arg->n_philo)
 	{
 		pthread_join(philo[i].thread, NULL);
 		i++;
 	}
+	pthread_join(checker_thread, NULL);
 	return (0);
 }
 

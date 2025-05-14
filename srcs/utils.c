@@ -6,7 +6,7 @@
 /*   By: yulpark <yulpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 17:46:11 by yulpark           #+#    #+#             */
-/*   Updated: 2025/05/14 21:44:36 by yulpark          ###   ########.fr       */
+/*   Updated: 2025/05/14 22:25:52 by yulpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,11 @@ int	ft_atoi(const char *nptr)
 }
 void	loading(int	t)
 {
-	int checkpoint;
+	long long int checkpoint;
 
 	checkpoint = ft_gettime();
 	while ((ft_gettime() - checkpoint) < t)
-		usleep(1000);
+		usleep(100);
 }
 
 void	print_statement(t_arg *arg, t_philo phil, char *msg)

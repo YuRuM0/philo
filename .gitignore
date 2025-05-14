@@ -4,3 +4,5 @@
 *.a
 .vscode
 philo
+.DS_Store
+.gitignore
