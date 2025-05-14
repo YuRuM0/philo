@@ -6,7 +6,7 @@
 /*   By: yulpark <yulpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 17:45:35 by yulpark           #+#    #+#             */
-/*   Updated: 2025/05/14 19:54:54 by yulpark          ###   ########.fr       */
+/*   Updated: 2025/05/14 21:56:00 by yulpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,11 @@ static int	input_checker(char **args)
 int	init_arg(int argc, char *argv[], t_arg *arg)
 {
 	if (argc < 5 || argc > 7)
-		return (print_error(ERR_INVALID_ARG), NULL);
+		return (print_error(ERR_INVALID_ARG), 1);
 	if (ft_atoi(argv[1]) < 1)
-		return (print_error(ERR_INVALID_ARG), NULL);
+		return (print_error(ERR_INVALID_ARG), 1);
 	if (input_checker(argv) != 0)
-		return (print_error(ERR_INVALID_ARG), NULL);
+		return (print_error(ERR_INVALID_ARG), 1);
 	arg->n_philo = ft_atoi(argv[1]);
 	arg->t_die = ft_atoi(argv[2]);
 	arg->t_eat = ft_atoi(argv[3]);
@@ -50,21 +50,22 @@ int	init_arg(int argc, char *argv[], t_arg *arg)
 		arg->t_must_eat = 0;
 	arg->start_time = ft_gettime();
 	arg->done = 0;
+	arg->ready = 0;
 	return (0);
 }
 
 int init_mutex(t_arg *arg)
 {
-	if (!pthread_mutex_init(&arg->dead_mutex, NULL))
+	if (pthread_mutex_init(&arg->dead_mutex, NULL) != 0)
 		return (print_error(ERR_MUTEX), 1);
-	if (!pthread_mutex_init(&arg->done_mutex, NULL))
+	if (pthread_mutex_init(&arg->done_mutex, NULL) != 0)
 		return (print_error(ERR_MUTEX), 1);
-	if (!pthread_mutex_init(&arg->print, NULL))
+	if (pthread_mutex_init(&arg->print, NULL) != 0)
 		return (print_error(ERR_MUTEX), 1);
 	arg->fork = malloc(sizeof(pthread_mutex_t) * arg->n_philo);
 	if (!arg->fork)
 		return (print_error(ERR_MALLOC_FAIL), 1);
-	if (!pthread_mutex_init(arg->fork, NULL))
+	if (pthread_mutex_init(arg->fork, NULL) != 0)
 		return (print_error(ERR_MUTEX), 1);
 	return (0);
 }
@@ -72,7 +73,6 @@ int init_mutex(t_arg *arg)
 int init_philo(t_arg *arg, t_philo *philo)
 {
 	int	i;
-	t_philo *philo;
 
 	i = 0;
 	if (arg->n_philo > 1)
@@ -84,9 +84,27 @@ int init_philo(t_arg *arg, t_philo *philo)
 			philo[i].id = i;
 			philo[i].arg = arg;
 			philo[i].r_fork = &arg->fork[i];
-			philo[i].l_fork = &arg->fork[(i + 1) % 2];
+			philo[i].l_fork = &arg->fork[(i + 1) % arg->n_philo];
 			i++;
 		}
 	}
 	return (0);
+}
+
+void	clean_up(t_arg *arg, t_philo *philo)
+{
+	int	i;
+
+	i = 0;
+	pthread_mutex_destroy(&arg->dead_mutex);
+	pthread_mutex_destroy(&arg->done_mutex);
+	pthread_mutex_destroy(&arg->print);
+	while (i < arg->n_philo)
+	{
+		pthread_mutex_destroy(&arg->fork[i]);
+		i++;
+	}
+	free(arg->fork);
+	free(arg);
+	free(philo);
 }

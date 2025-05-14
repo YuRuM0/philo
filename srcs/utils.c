@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yulpark <yulpark@student.codam.nl>         +#+  +:+       +#+        */
+/*   By: yulpark <yulpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 17:46:11 by yulpark           #+#    #+#             */
-/*   Updated: 2025/05/14 19:03:17 by yulpark          ###   ########.fr       */
+/*   Updated: 2025/05/14 21:44:36 by yulpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,17 +63,17 @@ void	loading(int	t)
 {
 	int checkpoint;
 
-	checkpoint = ft_gettime(); 
+	checkpoint = ft_gettime();
 	while ((ft_gettime() - checkpoint) < t)
-		usleep(10);
+		usleep(1000);
 }
 
 void	print_statement(t_arg *arg, t_philo phil, char *msg)
 {
-	int time;
+	long long int time;
 
 	time = ft_gettime();
 	pthread_mutex_lock(&arg->print);
-	printf("%d %d %s\n", time - arg->start_time, phil.id, msg);
+	printf("%lld %d %s\n", time - arg->start_time, phil.id, msg);
 	pthread_mutex_unlock(&arg->print);
 }

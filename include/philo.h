@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yulpark <yulpark@student.codam.nl>         +#+  +:+       +#+        */
+/*   By: yulpark <yulpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 17:45:19 by yulpark           #+#    #+#             */
-/*   Updated: 2025/05/14 18:59:21 by yulpark          ###   ########.fr       */
+/*   Updated: 2025/05/14 22:04:30 by yulpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,20 @@ typedef struct s_philo
 	pthread_mutex_t *r_fork;
 }	t_philo;
 
+typedef struct s_checker
+{
+	t_arg *arg;
+	t_philo *philo;
+}	t_checker;
+
 // input_handle
 int				init_arg(int argc, char *argv[], t_arg *arg);
 int				init_mutex(t_arg *arg);
-int				init_philo(t_arg *arg);
+int				init_philo(t_arg *arg, t_philo *philo);
+void			clean_up(t_arg *arg, t_philo *philo);
 
 //loop
-void				loop(void *arg);
+void			*loop(void *arg);
 
 //utils
 int				print_error(t_error error_type);
@@ -70,5 +77,4 @@ void			loading(int	t);
 void			print_statement(t_arg *arg, t_philo phil, char *msg);
 
 //main
-int				run_thread(t_arg *arg, t_philo *philo);
 int				main(int argc, char *argv[]);

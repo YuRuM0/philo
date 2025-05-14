@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yulpark <yulpark@student.codam.nl>         +#+  +:+       +#+         #
+#    By: yulpark <yulpark@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/01 23:59:08 by yulpark           #+#    #+#              #
-#    Updated: 2025/05/14 17:55:10 by yulpark          ###   ########.fr        #
+#    Updated: 2025/05/14 22:04:54 by yulpark          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,9 @@ HEADER = $(INCLUDE)/philo.h
 SRCS_DIR = srcs
 SRCS = $(SRCS_DIR)/main.c \
 		$(SRCS_DIR)/utils.c \
-		$(SRCS_DIR)/input_handle.c
+		$(SRCS_DIR)/input_handle.c \
+		$(SRCS_DIR)/loop.c \
+		$(SRCS)/checker.c
 
 OBJS_DIR = objs
 OBJS = $(patsubst $(SRCS_DIR)/%.c,$(OBJS_DIR)/%.o,$(SRCS))

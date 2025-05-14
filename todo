@@ -1,0 +1,30 @@
+Death and done checks are performed in the wrong place
+Death and done checks are inside the philosopher threads rather than being monitored by a separate monitoring thread
+The is_dead and is_done functions are called after the main while loop, so they may never execute
+
+
+Race condition in death checking
+The t_last_eat value is updated without proper mutex protection
+Multiple threads could be checking/updating death status simultaneously
+
+
+Potential deadlock in fork acquisition
+Even with the odd/even approach to acquiring forks, there's insufficient deadlock prevention
+No timeout for fork acquisition attempts
+
+
+Loop termination condition issues
+Philosophers check philo->arg->done != 1 but there's no way for them to see this value change while they're in eating/sleeping cycles
+The main thread doesn't continuously monitor for end conditions
+
+
+Incorrect mutex handling
+Only one fork mutex is initialized, but then you try to use an array of them
+There's a commented out mutex lock //pthread_mutex_lock(&arg->print); in the cleanup function
+
+
+Synchronization problems
+The is_dead and is_done functions don't properly protect shared data access
+
+
+
