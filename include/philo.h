@@ -3,12 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yulpark <yulpark@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yulpark <yulpark@student.codam.nl>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/14 17:45:19 by yulpark           #+#    #+#             */
-/*   Updated: 2025/05/14 22:21:05 by yulpark          ###   ########.fr       */
+/*   Created: 2025/05/16 14:37:58 by yulpark           #+#    #+#             */
+/*   Updated: 2025/05/16 16:51:47 by yulpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#ifndef PHILO_H
+# define PHILO_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -16,63 +19,54 @@
 #include <pthread.h>
 #include <sys/time.h>
 
-typedef enum e_error
-{
-	ERR_MALLOC_FAIL,
-	ERR_INVALID_ARG,
-	SUCCESS = 0,
-	ERR_TIMEVAL,
-	ERR_THREAD,
-	ERR_MUTEX
-}	t_error;
-
-typedef struct s_arg
+typedef struct s_args
 {
 	int n_philo;
-	int t_eat;
 	int t_die;
+	int t_eat;
 	int t_sleep;
-	int t_must_eat;
-	int start_time;
-	int done;
-	int dead;
+	int t_must_eat; //loop
 	int ready;
-	pthread_mutex_t dead_mutex;
-	pthread_mutex_t done_mutex;
-	pthread_mutex_t *fork;
-	pthread_mutex_t print;
-}	t_arg;
+	int over;
+	int meal_needed;
+	long long int start_time;
+	pthread_mutex_t *forks;
+	pthread_mutex_t *death;
+}	t_args;
 
-typedef struct s_philo
+typedef struct s_philos
 {
-	int n_eaten;
-	int t_last_eat;
 	int id;
-	t_arg *arg;
+	int dead;
+	int n_eaten;
+	long long int t_last_eat;
+	long long int thead_start;
 	pthread_t thread;
-	pthread_mutex_t *l_fork;
-	pthread_mutex_t *r_fork;
-}	t_philo;
+	pthread_mutex_t *left_fork;
+	pthread_mutex_t *right_fork;
+	t_args	*args;
+}	t_philos;
 
-
-// input_handle
-int				init_arg(int argc, char *argv[], t_arg *arg);
-int				init_mutex(t_arg *arg);
-int				init_philo(t_arg *arg, t_philo *philo);
-void			clean_up(t_arg *arg, t_philo *philo);
-
-//loop
-void			*loop(void *arg);
-
-//utils
-int				print_error(t_error error_type);
+//utils.c
+int	ft_atoi(const char *nptr);
+void print_error(char *s, int c);
 long long int	ft_gettime(void);
-int				ft_atoi(const char *nptr);
-void			loading(int	t);
-void			print_statement(t_arg *arg, t_philo phil, char *msg);
+void	print_statement(t_philos *philos, char *msg);
+void	loading(int	t);
+//init.c
+int	input_checker(int argc, char **args);
+void arg_init(int argc, char *argv[], t_args *args);
+void philo_init(t_args *args, t_philos *philos);
+void thread_init(t_args *args, t_philos *philos);
 
-//checker
-void			*check_overall(void *arginput);
+//loop.c
+void *loop(void *arg);
 
-//main
-int				main(int argc, char *argv[]);
+//checks.c
+void thread_checker(t_args *args, t_philos *philos);
+void clean_thread(t_args *args, t_philos *philos);
+
+//main.c
+int main(int argc, char *argv[]);
+
+#endif
