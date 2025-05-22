@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yulpark <yulpark@student.codam.nl>         +#+  +:+       +#+        */
+/*   By: yulpark <yulpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 14:47:52 by yulpark           #+#    #+#             */
-/*   Updated: 2025/05/16 18:20:12 by yulpark          ###   ########.fr       */
+/*   Updated: 2025/05/21 18:42:54 by yulpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-//same
-void print_error(char *s, int c)
+
+void	print_error(char *s, int c)
 {
 	printf("%s\n", s);
 	exit(c);
@@ -20,7 +20,7 @@ void print_error(char *s, int c)
 
 long long int	ft_gettime(void)
 {
-	struct timeval tv;
+	struct timeval	tv;
 
 	if (gettimeofday(&tv, NULL) == -1)
 	{
@@ -29,10 +29,10 @@ long long int	ft_gettime(void)
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
-int	ft_atoi(const char *nptr)
+long long int	ft_atoi(const char *nptr)
 {
-	int	result;
-	int	sign;
+	long long int	result;
+	int				sign;
 
 	result = 0;
 	sign = 1;
@@ -52,19 +52,19 @@ int	ft_atoi(const char *nptr)
 	return (sign * result);
 }
 
-void	loading(int	t)
+void	loading(int t)
 {
-	long long int checkpoint;
+	long long int	checkpoint;
 
 	checkpoint = ft_gettime();
 	while ((ft_gettime() - checkpoint) < t)
-		usleep(150);
+		usleep(100);
 }
 
 void	print_statement(t_philos *philos, char *msg)
 {
-	long long int time;
-	
+	long long int	time;
+
 	pthread_mutex_lock(philos->args->death);
 	if (philos->args->over)
 	{
@@ -72,6 +72,7 @@ void	print_statement(t_philos *philos, char *msg)
 		return ;
 	}
 	time = ft_gettime();
-	printf("%lld %d %s\n", time - philos->args->start_time, philos->id + 1, msg);
+	printf("%lld %d %s\n", time - philos->args->start_time,
+		philos->id + 1, msg);
 	pthread_mutex_unlock(philos->args->death);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yulpark <yulpark@student.codam.nl>         +#+  +:+       +#+        */
+/*   By: yulpark <yulpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 14:43:28 by yulpark           #+#    #+#             */
-/*   Updated: 2025/05/16 17:23:35 by yulpark          ###   ########.fr       */
+/*   Updated: 2025/05/21 18:43:25 by yulpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,18 @@
 
 int	input_checker(int argc, char **args)
 {
-	int i;
+	int	i;
 	int	j;
 
 	if (argc != 5 && argc != 6)
 		return (1);
+	i = 1;
+	while (args[i])
+	{
+		if (ft_atoi(args[i]) > 2147483647)
+			return (1);
+		i++;
+	}
 	i = 1;
 	while (args[i])
 	{
@@ -33,7 +40,8 @@ int	input_checker(int argc, char **args)
 	}
 	return (0);
 }
-void arg_init(int argc, char *argv[], t_args *args)
+
+void	arg_init(int argc, char *argv[], t_args *args)
 {
 	args->n_philo = ft_atoi(argv[1]);
 	args->t_die = ft_atoi(argv[2]);
@@ -62,22 +70,12 @@ void arg_init(int argc, char *argv[], t_args *args)
 	}
 }
 
-void philo_init(t_args *args, t_philos *philos)
+static void	philo_init_utils(t_args *args, t_philos *philos)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < args->n_philo)
-	{
-		if (pthread_mutex_init(&args->forks[i++], NULL) != 0)
-		{
-			free(args->death);
-			free(args->forks);
-			print_error("Mutex fail", 1);
-		}
-	}
-	i = -1;
-	while (++i < args->n_philo)
 	{
 		philos[i].id = i;
 		philos[i].dead = 0;
@@ -87,30 +85,52 @@ void philo_init(t_args *args, t_philos *philos)
 		philos[i].args = args;
 		philos[i].left_fork = &args->forks[i];
 		philos[i].right_fork = &args->forks[(i + 1) % (args->n_philo)];
+		i++;
 	}
 }
 
-void thread_init(t_args *args, t_philos *philos)
+void	philo_init(t_args *args, t_philos *philos)
 {
-	int i;
+	int	i;
 
-	i = -1;
-	while (++i < args->n_philo)
+	i = 0;
+	while (i < args->n_philo)
+	{
+		if (pthread_mutex_init(&args->forks[i], NULL) != 0)
+		{
+			free(args->death);
+			free(args->forks);
+			print_error("Mutex fail", 1);
+		}
+		usleep(100);
+		i++;
+	}
+	philo_init_utils(args, philos);
+}
+
+void	thread_init(t_args *args, t_philos *philos)
+{
+	int	i;
+
+	i = 0;
+	while (i < args->n_philo)
 	{
 		if (pthread_create(&philos[i].thread, NULL, &loop, &philos[i]) != 0)
 		{
 			free(args->death);
 			free(args->forks);
 			free(philos);
-			print_error("Thread creation fail", 1);
+			print_error("Thread creation failed", 1);
 		}
+		i++;
 	}
 	args->start_time = ft_gettime();
-	i = -1;
-	while (++i < args->n_philo)
+	i = 0;
+	while (i < args->n_philo)
 	{
-		philos[i].t_last_eat = args->start_time;		
+		philos[i].t_last_eat = args->start_time;
 		philos[i].thead_start = args->start_time;
+		i++;
 	}
 	args->ready = 1;
 	thread_checker(args, philos);

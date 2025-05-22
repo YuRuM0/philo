@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yulpark <yulpark@student.codam.nl>         +#+  +:+       +#+         #
+#    By: yulpark <yulpark@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/01 23:59:08 by yulpark           #+#    #+#              #
-#    Updated: 2025/05/16 16:50:54 by yulpark          ###   ########.fr        #
+#    Updated: 2025/05/21 17:39:53 by yulpark          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ GREEN   = \033[32m
 YELLOW  = \033[33m
 BLUE    = \033[34m
 
-CFLAGS = -Wall -Werror -Wextra -g -pthread
+CFLAGS = -Wall -Werror -Wextra -g -pthread -fsanitize=address
 
 INCLUDE = include
 HEADER = $(INCLUDE)/philo.h
